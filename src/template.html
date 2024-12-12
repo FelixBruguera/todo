@@ -7,11 +7,41 @@
 </head>
 <body>
     <nav>
+        <button popovertarget="new-project" class="nav-button">New Project</button>
+        <form popover id="new-project">
+            <label for="name">Project name</label>
+            <input type="text" name="name" placeholder="My project" required>
+            <label for="description">Description</label>
+            <input type="text" name="description" placeholder="Lorem ipsum dolor sit amet" required>
+            <label for="deadline">Deadline</label>
+            <input type="date" name="deadline" required>
+            <input type="submit" value="Send">
+        </form>
         <h1>Todo List</h1>
+        <button popovertarget="new-todo" class="nav-button">New Todo</button>
+        <form popover id="new-todo">
+            <label for="project">Project</label>
+            <select name="project" required>
+            </select>
+            <label for="description">Description</label>
+            <input type="text" name="description" placeholder="Lorem ipsum dolor sit amet" required>
+            <label for="priority">Priority</label>
+            <select name="priority" required>
+                <option value="high">High</option>
+                <option value="normal">Normal</option>
+                <option value="low">Low</option>
+            </select>
+        </form>
     </nav>
     <section id="content">
-
     </section>
-    
+    <template id="project-card-template">
+        <button class="project-card">
+            <h3 class="project-name"></h3>
+            <p class="project-deadline"></p>
+            <ul id="todos">
+            </ul>
+        </button>
+    </template>
 </body>
 </html>
