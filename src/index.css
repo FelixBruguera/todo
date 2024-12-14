@@ -15,25 +15,28 @@ body {
     background-color: var(--color-primary);
     color: var(--color-secondary);
     /* padding: 0; */
+    margin: 0;
 }
 nav {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     border-bottom: 1px solid rgba(0,0,0, 0.1);
+    background-color: var(--color-secondary);
+    color: white;
 }
 .content-dashboard {
-    width: 80%;
+    width: 90%;
     margin: auto;
     margin-top: 5%;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    gap: 20px;
 }
 .project-card {
     background-color: var(--color-primary);
-    width: 20%;
+    width: 23%;
     box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
     border: 2px solid var(--color-tertiary);
     border-radius: 10px;
@@ -43,9 +46,15 @@ nav {
     justify-content: center;
 }
 #todos {
-    width: 50%;
+    width: 80%;
     background-color: var(--color-primary);
     border: 1px solid rgba(0,0,0, 1.05);
+    height: 40%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
 }
 .nav-button {
     box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;

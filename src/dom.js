@@ -9,6 +9,13 @@ export default class DomManager {
         element.textContent = elementContent
         return element
     }
+    static makeFormElement(elementType, elementValue = "", elementName = "", elementContent = "") {
+        let element = document.createElement(elementType)
+        element.value = elementValue
+        element.name = elementName
+        element.textContent = elementContent
+        return element
+    }
     static setTextContent(element, selector, text) {
         element.querySelector(selector).textContent = text
     }

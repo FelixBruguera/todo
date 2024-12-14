@@ -7,7 +7,7 @@
 </head>
 <body>
     <nav>
-        <button popovertarget="new-project" class="nav-button">New Project</button>
+        <button popovertarget="new-project" class="nav-button" data-formtarget="new-project">New Project</button>
         <form popover id="new-project">
             <label for="name">Project name</label>
             <input type="text" name="name" placeholder="My project" required>
@@ -18,7 +18,7 @@
             <input type="submit" value="Send">
         </form>
         <h1>Todo List</h1>
-        <button popovertarget="new-todo" class="nav-button">New Todo</button>
+        <button popovertarget="new-todo" class="nav-button" data-formtarget="new-todo">New Todo</button>
         <form popover id="new-todo">
             <label for="project">Project</label>
             <select name="project" required>
@@ -31,6 +31,7 @@
                 <option value="normal">Normal</option>
                 <option value="low">Low</option>
             </select>
+            <input type="submit" value="Send">
         </form>
     </nav>
     <section id="content">

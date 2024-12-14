@@ -15,4 +15,10 @@ export default class Todo {
     editPriority(newPriority) {
         this.priority = newPriority
     }
+    static restoreTodo(values) {
+        return new Todo(values.description, values.priority)
+    }
+    static createSubscriptions() {
+        pubSub.on("restoreTodo", this.restoreTodo)
+    }
 }

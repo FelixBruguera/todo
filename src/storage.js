@@ -12,9 +12,16 @@ export default class Storage {
         return JSON.parse(object)
     }
     static getUserProjects() {
-        const projects = localStorage.getItem("userProjects")
-        if (projects == null) { return false }
-        else { return Storage.deserialize(projects) }
+        let projects = localStorage.getItem("userProjects")
+        if (projects != null) {
+            projects =  Storage.deserialize(projects) 
+            projects = projects.map(project => {
+                const newProject = pubSub.emit("restoreProject", project)
+                newProject.todos = project.todos.map(todo => pubSub.emit("restoreTodo", todo));
+                return newProject;
+              })
+            }
+        return projects
     }
     static saveUserProjects(projects) {
         let data = Storage.serialize(projects)
