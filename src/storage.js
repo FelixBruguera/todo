@@ -2,7 +2,7 @@ import { pubSub } from "./index"
 
 export default class Storage {
     static createSubscriptions() {
-        pubSub.on("getProjects", Storage.getUserProjects)
+        pubSub.on("loadProjects", Storage.getUserProjects)
         pubSub.on("saveProjects", Storage.saveUserProjects)
     }
     static serialize(object) {

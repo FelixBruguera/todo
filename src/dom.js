@@ -17,7 +17,9 @@ export default class DomManager {
         return element
     }
     static setTextContent(element, selector, text) {
-        element.querySelector(selector).textContent = text
+        let target = element.querySelector(selector)
+        target.textContent = text
+        return target
     }
     static wrapElements(elements, parentElement) {
         for (const elem of elements) {
