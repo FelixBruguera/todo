@@ -12,15 +12,15 @@ export default class dashboardDom extends DomManager {
     }
     static populateForms() {
         this.newProjectButton.addEventListener("click", function() {
-            const dateField = document.querySelector("#new-project > input[type=date]")
+            const dateField = document.querySelector("#new-project-form > input[type=date]")
             dateField.min = format(new Date(), "yyyy-MM-dd")
         }, {once: true})
     }
     static newProjectListener() {
-        const projectForm = document.querySelector("#new-project")
+        const projectForm = document.querySelector("#new-project-form")
         projectForm.addEventListener("submit", function(e) {
             e.preventDefault()
-            let form = new FormData(document.querySelector("#new-project"))
+            let form = new FormData(document.querySelector("#new-project-form"))
             let formObject = {"name": form.get("name"), "description": form.get("description"), "deadline": form.get("deadline") }
             pubSub.emit("createProject", formObject)
             projectForm.hidePopover()
@@ -28,10 +28,10 @@ export default class dashboardDom extends DomManager {
         })
     }
     static newTodoListener() {
-        const todoForm = document.querySelector("#new-todo")
+        const todoForm = document.querySelector("#new-todo-form")
         todoForm.addEventListener("submit", function(e) {
             e.preventDefault()
-            let form = new FormData(document.querySelector("#new-todo"))
+            let form = new FormData(document.querySelector("#new-todo-form"))
             let formObject = {"project": form.get("project"), "description": form.get("description"), "priority": form.get("priority") }
             pubSub.emit("createTodo", formObject)
             todoForm.hidePopover()
@@ -47,6 +47,7 @@ export default class dashboardDom extends DomManager {
         const template = document.querySelector("#nav-project-template").content.cloneNode(true)
         super.setTextContent(template, ".nav-project-name", project.name)
         template.querySelector("div.nav-project").dataset.projectName = project.name
+        template.querySelector(".nav-project-name").dataset.projectName = project.name
         return template
     }
     static renderDashboard(projects) {

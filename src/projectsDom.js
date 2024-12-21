@@ -8,7 +8,7 @@ export default class projectsDom extends DomManager {
         pubSub.on("newProject", this.renderProject, true)
     }
     static findProject(event, projectName = null) {
-        if (projectName == null) { projectName = event.target.textContent }
+        if (projectName == null) { projectName = event.target.dataset.projectName }
         const projects = pubSub.emit("getProjects")
         return projects.find(project => project.name == projectName)
     }
@@ -42,6 +42,7 @@ export default class projectsDom extends DomManager {
         super.setTextContent(template, ".todo-description", todo.description)
         template.querySelector("div.todo").dataset.todoDescription = todo.description
         template.querySelector("#todo-complete").addEventListener("click", (e) => this.markasCompleted(e))
+        template.querySelector("#todo-delete").addEventListener("click", (e) => this.deleteTodo(e))
         if (todo.completed) { this.updateTodoElem(template.querySelector("div")) }
         return template
     }
@@ -61,5 +62,15 @@ export default class projectsDom extends DomManager {
         const todo = this.findTodo(event, todoName)
         todo.markAsCompleted()
         this.updateTodoElem(todoElem)
+    }
+    static deleteTodo(event) {
+        const todoName = event.target.parentElement.parentElement.dataset.todoDescription
+        const todoElem = event.target.parentElement.parentElement
+        const projectName = document.querySelector(".project-name").textContent
+        const project = this.findProject(event, projectName)
+        const todo = this.findTodo(event, todoName)
+        todo.destroy(project)
+        // todoElem.id = "deleted-todo"
+        setTimeout(() => todoElem.remove(), 0)
     }
 }

@@ -13,20 +13,20 @@
     --color-tertiary: hsl(275, 80%, 80%);
     --color-accent: hsl(155, 80%, 80%);
 }
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+
 body {
     font-size: 20px;
-    /* background-color: var(--color-primary); */
     color: var(--color-secondary);
-    /* padding: 0; */
     margin: 0;
     display: flex;
     overflow-y: hidden;
-    
 }
 #page-name {
     width: 100%;
     font-size: 2rem;
     text-align: center;
+    font-family: "Montserrat";
 }
 nav {
     display: flex;
@@ -46,7 +46,7 @@ nav {
     align-items: center;
     justify-content: center;
 }
-button {
+button, input[type="submit"] {
     padding: 2%;
     border: none;
     font-weight: 800;
@@ -58,12 +58,14 @@ button {
 .nav-button {
     height: 100%;
     width: 50%;
+    transition: transform 0.1s ease-in-out;
 }
 .header-button {
     width: 15%;
     height: 6dvh;
     text-align: center;
     padding: 1%;
+    transition: transform 0.1s ease-in-out;
 }
 #nav-projects {
     width: 95%;
@@ -84,11 +86,12 @@ button {
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transform: scale(1.03);
+    color: rgba(0, 0, 0, 1);
     font-weight: 600;
 }
 .nav-project-name {
     background-color: transparent;
-    color: black;
+    color: rgba(0, 0, 0, 0.6);
     border: none;
 }
 #content {
@@ -121,6 +124,7 @@ button {
     padding-bottom: 2%;
     margin-bottom: 0;
     margin-top: 0;
+    color: rgba(0, 0, 0, 0.6);
 }
 .project-card {
     background-color: var(--color-primary);
@@ -146,13 +150,21 @@ button {
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-color);
 }
+#deleted-todo {
+    animation: fadeOut 0.5s ease-in-out;
+}
+@keyframes fadeOut {
+    0% { opacity: 1;}
+    100% { 
+        opacity: 0;}
+    
+}
 .todo {
     width: 25%;
     box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
     border: 1px solid lightgrey;
     border-radius: 10px;
     display: flex;
-    /* flex-direction: column; */
     align-items: center;
     justify-content: space-around;
     overflow: hidden;
@@ -161,9 +173,10 @@ button {
     transition: transform 0.2s ease-in-out;
     height: 11dvh;
 }
+
 .todo:hover {
     cursor: pointer;
-    border: 1px solid var(--color-tertiary);
+    border: 1px solid #8d8d8d;
     transform: scale(1.1);
 }
 .new-todo {
@@ -172,7 +185,6 @@ button {
 @keyframes slideIn {
     0% { 
         transform: translateY(-100%);
-        /* opacity: 0.2; */
     }
     70% {
         transform: translateY(15%);
@@ -199,13 +211,20 @@ button {
     font-size: 0.9rem;
     max-height: 100%;
 }
+#todo-delete {
+    background-color: #bf0000;
+}
 #todo-complete, #todo-delete {
     font-size: 0.8rem;
     width: 100%;
     height: 40%;
     transition: transform 0.1s ease-in-out;
 }
-#todo-complete:hover, #todo-delete:hover {
+.nav-button:hover, .header-button:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+#todo-complete:hover, #todo-delete:hover{
     transform: scale(1.1);
     cursor: pointer;
 } 
@@ -225,13 +244,39 @@ button {
     font-size: 3rem;
     color: var(--color-accent);
     opacity: 1;
-    /* background-color: white; */
 }
 .completed-todo > .todo-options > #todo-complete {
     background-color: var(--color-primary);
 }
 button {
     box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
-    /* background-color: var(--color-primary); */
-    border: 1px solid rgba(0,0,0, 0.1);
+}
+#new-project, #new-todo {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.6);
+}
+#new-project-form, #new-todo-form {
+    height: 45%;
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+}
+input, select {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 60%;
+    margin: auto;
+    font-size: 0.9rem;
+    margin: 2% auto 2% auto;
+}
+label {
+    font-weight: 600;
 }

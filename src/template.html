@@ -10,15 +10,17 @@
         <h1 id="page-name">Todo List</h1>
         <section id="nav-buttons">
             <button popovertarget="new-project" class="nav-button" data-formtarget="new-project">New Project</button>
-            <form popover id="new-project">
-                <label for="name">Project name</label>
-                <input type="text" name="name" placeholder="My project" required>
-                <label for="description">Description</label>
-                <input type="text" name="description" placeholder="Lorem ipsum dolor sit amet" required>
-                <label for="deadline">Deadline</label>
-                <input type="date" name="deadline" required>
-                <input type="submit" value="Send">
-            </form>
+            <div popover id="new-project">
+                <form popover id="new-project-form">
+                    <label for="name">Project name</label>
+                    <input type="text" name="name" placeholder="My project" required>
+                    <label for="description">Description</label>
+                    <input type="text" name="description" placeholder="Lorem ipsum dolor sit amet" required>
+                    <label for="deadline">Deadline</label>
+                    <input type="date" name="deadline" required>
+                    <input type="submit" value="Send">
+                </form>
+            </div>
         </section>
         <ul id="nav-projects">
             <template id="nav-project-template">
@@ -35,20 +37,22 @@
             <div id="project-header">
                 <h2 class="project-name"></h2>
                 <button popovertarget="new-todo" class="header-button" data-formtarget="new-todo">New Todo</button>
-                <form popover id="new-todo">
-                <label for="project">Project</label>
-                <input type="text" name="project" required readonly>
-                </select>
-                <label for="description">Description</label>
-                <input type="text" name="description" placeholder="Lorem ipsum dolor sit amet" required>
-                <label for="priority">Priority</label>
-                <select name="priority" required>
-                    <option value="high">High</option>
-                    <option value="normal">Normal</option>
-                    <option value="low">Low</option>
-                </select>
-                <input type="submit" value="Send">
-            </form>
+                <div popover id="new-todo">
+                    <form popover id="new-todo-form">
+                    <label for="project">Project</label>
+                    <input type="text" name="project" required readonly>
+                    </select>
+                    <label for="description">Description</label>
+                    <input type="text" name="description" placeholder="Lorem ipsum dolor sit amet" required>
+                    <label for="priority">Priority</label>
+                    <select name="priority" required>
+                        <option value="high">High</option>
+                        <option value="normal">Normal</option>
+                        <option value="low">Low</option>
+                    </select>
+                    <input type="submit" value="Send">
+                                </form>
+                </div>
             </div>
             <p class="project-description"></p>
             <!-- <p class="project-deadline"></p> -->

@@ -10,6 +10,11 @@ export default class Todo {
         this.completed = true
         pubSub.emit("projectChange")
     }
+    destroy(project) {
+        const todoIndex = project.todos.indexOf(this)
+        project.todos.splice(todoIndex, 1)
+        pubSub.emit("projectChange")
+    }
     editDescription(newDescription) {
         this.description = newDescription
     }
