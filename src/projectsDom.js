@@ -40,6 +40,7 @@ export default class projectsDom extends DomManager {
     static createTodoCard(todo) {
         const template = document.querySelector("#todo-template").content.cloneNode(true)
         super.setTextContent(template, ".todo-description", todo.description)
+        template.querySelector(".todo").classList.add(`${todo.priority}-priority`)
         template.querySelector("div.todo").dataset.todoDescription = todo.description
         template.querySelector("#todo-complete").addEventListener("click", (e) => this.markasCompleted(e))
         template.querySelector("#todo-delete").addEventListener("click", (e) => this.deleteTodo(e))

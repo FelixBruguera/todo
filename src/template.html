@@ -56,13 +56,37 @@
             </div>
             <p class="project-description"></p>
             <!-- <p class="project-deadline"></p> -->
+             <div id="project-filters">
+                <div class="project-filter">
+                    <label for="todo-priority-select">Priority</label>
+                    <select name="todo-priority-select" id="todo-priority-select">
+                        <option value="all">All</option>
+                        <option value="high">High</option>
+                        <option value="normal">Normal</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="project-filter">
+                    <label for="todo-completion-select">Completion</label>
+                    <select name="todo-completion" id="todo-completion-select">
+                        <option value="all">All</option>
+                        <option value="completed">Completed</option>
+                        <option value="uncompleted">Uncompleted</option>
+                    </select>
+                </div>
+             </div>
             <div id="todos">
             </div>
         </div>
     </template>
     <template id="todo-template">
         <div class="todo">
-            <p class="todo-description"></p>
+            <div class="todo-info">
+                <p class="todo-description"></p>
+                <!-- <p class="todo-priority"></p> -->
+                 <div id="todo-priority"></div>
+
+            </div>
             <div class="todo-options">
                 <button id="todo-complete">Finish</button>
                 <button id="todo-delete">Delete</button>

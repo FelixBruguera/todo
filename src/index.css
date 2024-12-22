@@ -140,7 +140,7 @@ button, input[type="submit"] {
 #todos {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%;
-    height: 80%;
+    height: 70%;
     overflow: auto;
     display: flex;
     flex-wrap: wrap;
@@ -157,10 +157,9 @@ button, input[type="submit"] {
     0% { opacity: 1;}
     100% { 
         opacity: 0;}
-    
 }
 .todo {
-    width: 25%;
+    width: 23%;
     box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
     border: 1px solid lightgrey;
     border-radius: 10px;
@@ -176,7 +175,6 @@ button, input[type="submit"] {
 
 .todo:hover {
     cursor: pointer;
-    border: 1px solid #8d8d8d;
     transform: scale(1.1);
 }
 .new-todo {
@@ -203,6 +201,48 @@ button, input[type="submit"] {
     justify-content: space-around;
     flex-direction: column;
     height: 100%;
+}
+.todo-info {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    height: 100%;
+}
+#todo-priority {
+    height: 1%;
+    width: 20%;
+    font-size: 0.8rem;
+    width: 80%;
+    color: grey;
+    font-weight: 500
+}
+.low-priority:hover {
+    #todo-priority::after {
+        content: "Low priority"
+    }
+}
+.normal-priority:hover {
+    #todo-priority::after {
+        content: "Normal priority";
+        color: #a76d03;
+    }
+}
+.high-priority:hover {
+    #todo-priority::after {
+        content: "High priority";
+        color: red;
+    }
+}
+.low-priority {
+    border-left: 10px solid grey;
+}
+.normal-priority {
+    border-left: 10px solid orange;
+}
+.high-priority {
+    border-left: 10px solid red;
 }
 .todo-description {
     text-overflow: ellipsis;
@@ -279,4 +319,7 @@ input, select {
 }
 label {
     font-weight: 600;
+}
+#project-filters {
+    display: flex;
 }
