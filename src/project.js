@@ -7,6 +7,10 @@ export default class Project {
         this.deadline = deadline
         this.todos = todos
     }
+    static create(values) {
+        let project = new Project(values.name, values.description, values.deadline)
+        pubSub.emit("newProject", project)
+    }
     addTodo(todo) {
         this.todos.push(todo)
     }
@@ -23,5 +27,6 @@ export default class Project {
     }
     static createSubscriptions() {
         pubSub.on("restoreProject", this.restoreProject)
+        pubSub.on("createProject", Project.create, true)
     }
 }

@@ -1,43 +1,11 @@
 import DomManager from "./dom";
 import { pubSub } from "./index"
-import { format } from "date-fns"
 
 export default class dashboardDom extends DomManager {
     static cacheDOM() {
-        this.newProjectButton = document.querySelector("button[data-formtarget='new-project']")
         this.projectList = document.querySelector("ul#nav-projects")
         pubSub.on("newProject", this.newProject)
-        pubSub.on("renderProject", this.newTodoListener)
-        pubSub.on("newProject", this.newTodoListener)
-    }
-    static populateForms() {
-        this.newProjectButton.addEventListener("click", function() {
-            const dateField = document.querySelector("#new-project-form > input[type=date]")
-            dateField.min = format(new Date(), "yyyy-MM-dd")
-        }, {once: true})
-    }
-    static newProjectListener() {
-        const projectForm = document.querySelector("#new-project-form")
-        projectForm.addEventListener("submit", function(e) {
-            e.preventDefault()
-            let form = new FormData(document.querySelector("#new-project-form"))
-            let formObject = {"name": form.get("name"), "description": form.get("description"), "deadline": form.get("deadline") }
-            pubSub.emit("createProject", formObject)
-            projectForm.hidePopover()
-            projectForm.reset()
-        })
-    }
-    static newTodoListener() {
-        const todoForm = document.querySelector("#new-todo-form")
-        todoForm.addEventListener("submit", function(e) {
-            e.preventDefault()
-            let form = new FormData(document.querySelector("#new-todo-form"))
-            let formObject = {"project": form.get("project"), "description": form.get("description"), "priority": form.get("priority") }
-            pubSub.emit("createTodo", formObject)
-            todoForm.hidePopover()
-            todoForm.reset()
-            todoForm.querySelector("input[name='project']").value = form.get("project")
-        })
+        pubSub.on("renderDashboard", this.renderDashboard, true)
     }
     static newProject(project) {
         let navElem = dashboardDom.createNavProject(project)
@@ -53,14 +21,15 @@ export default class dashboardDom extends DomManager {
     static renderDashboard(projects) {
         let projectElements = []
         for (const project of projects) {
-            let projectElem = this.createNavProject(project)
+            let projectElem = dashboardDom.createNavProject(project)
             projectElements.push(projectElem)
         }
         super.wrapElements(projectElements, document.querySelector("ul#nav-projects"))
-        this.newProjectListener()
-        this.projectList.addEventListener("click", (e) => { 
+        dashboardDom.projectList.addEventListener("click", (e) => { 
             if (e.target.id != "nav-projects") {
-                pubSub.emit("renderProject", e)
+                let projectName = e.target.dataset.projectName
+                let project = pubSub.emit("findProject", projectName)
+                pubSub.emit("renderProject", project)
             }
         })
     }

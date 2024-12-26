@@ -6,6 +6,15 @@ export default class Todo {
         this.priority = priority
         this.completed = completed
     }
+    static create(values) {
+        const todo = new Todo(values.description, values.priority)
+        let projects = pubSub.emit("getProjects")
+        let project = projects.find(project => project.name == values.project)
+        project.addTodo(todo)
+        pubSub.emit("renderTodo", {todo: todo})
+        pubSub.emit("projectChange")
+        return todo
+    }
     markAsCompleted() {
         this.completed = true
         pubSub.emit("projectChange")
@@ -21,10 +30,11 @@ export default class Todo {
     editPriority(newPriority) {
         this.priority = newPriority
     }
-    static restoreTodo(values) {
+    static restore(values) {
         return new Todo(values.description, values.priority, values.completed)
     }
     static createSubscriptions() {
-        pubSub.on("restoreTodo", this.restoreTodo)
+        pubSub.on("restoreTodo", this.restore)
+        pubSub.on("createTodo", this.create)
     }
 }
