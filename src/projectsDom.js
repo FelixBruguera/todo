@@ -1,5 +1,6 @@
 import DomManager from "./dom";
 import { pubSub } from "./index"
+import { format } from "date-fns";
 
 export default class projectsDom extends DomManager {
     static cacheDOM() {
@@ -20,6 +21,10 @@ export default class projectsDom extends DomManager {
         const template = document.querySelector("#project-template").content.cloneNode(true)
         super.setTextContent(template, ".project-name", project.name)
         super.setTextContent(template, ".project-description", project.description)
+        super.setTextContent(template, ".project-deadline", project.deadline)
+        if (project.deadline <= format(new Date(), "yyyy-MM-dd")) { 
+            template.querySelector(".project-deadline").classList.add("overdue") 
+        }
         project.todos = this.sortTodos(project.todos)
         template.querySelector("input[name='project']").value = project.name
         project.todos.forEach(todo => {

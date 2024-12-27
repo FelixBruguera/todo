@@ -54,16 +54,18 @@
                                 </form>
                 </div>
             </div>
-            <p class="project-description"></p>
-            <!-- <p class="project-deadline"></p> -->
+            <div id="project-information">
+                <p class="project-description"></p>
+                <p class="project-deadline"></p>
+            </div>
              <div id="project-filters">
                 <div class="project-filter">
                     <label for="todo-priority-select">Priority</label>
                     <select name="todo-priority-select" id="todo-priority-select">
                         <option value="all">All</option>
-                        <option value="high">High</option>
-                        <option value="normal">Normal</option>
-                        <option value="low">Low</option>
+                        <option value="high">🔴 High</option>
+                        <option value="normal">🟡 Normal</option>
+                        <option value="low">⚫ Low</option>
                     </select>
                 </div>
                 <div class="project-filter">

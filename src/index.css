@@ -45,6 +45,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 8%;
 }
 button, input[type="submit"] {
     padding: 2%;
@@ -61,8 +62,8 @@ button, input[type="submit"] {
     transition: transform 0.1s ease-in-out;
 }
 .header-button {
-    width: 15%;
-    height: 6dvh;
+    width: 13%;
+    height: 7dvh;
     text-align: center;
     padding: 1%;
     transition: transform 0.1s ease-in-out;
@@ -117,18 +118,28 @@ button, input[type="submit"] {
     align-items: center;
     justify-content: space-between;
     margin-right: 5%;
+    height: 10%;
 }
 .project-name {
-    height: 5%;
     font-size: 2rem;
-    margin-bottom: 2%;
+    margin: 0;
 }
 .project-description {
-    width: 80%;
-    padding-bottom: 2%;
-    margin-bottom: 0;
-    margin-top: 0;
+    font-size: 1.1rem;
+}
+.overdue::after {
+    content: "❗";
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: red;
+}
+#project-information {
+    display: flex;
+    margin-right: 7%;
+    align-items: center;
+    justify-content: space-between;
     color: rgba(0, 0, 0, 0.6);
+    font-size: 1rem;
 }
 .project-card {
     background-color: var(--color-primary);
@@ -153,6 +164,7 @@ button, input[type="submit"] {
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-color);
+    margin-top: 1%;
 }
 #deleted-todo {
     animation: fadeOut 0.5s ease-in-out;
@@ -222,7 +234,7 @@ button, input[type="submit"] {
     color: grey;
     font-weight: 500
 }
-.low-priority:hover {
+/* .low-priority:hover {
     #todo-priority::after {
         content: "Low priority"
     }
@@ -238,7 +250,7 @@ button, input[type="submit"] {
         content: "High priority";
         color: red;
     }
-}
+} */
 .low-priority {
     border-left: 10px solid grey;
 }
@@ -326,4 +338,5 @@ label {
 }
 #project-filters {
     display: flex;
+    font-size: 1.2rem;
 }
