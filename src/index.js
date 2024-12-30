@@ -11,36 +11,50 @@ import "./index.css"
 const pubSub = new pubsub()
 Project.createSubscriptions()
 Todo.createSubscriptions()
-dashboardDom.cacheDOM()
-projectsDom.cacheDOM()
-todoDom.cacheDOM()
-Forms.cacheDOM()
-Storage.createSubscriptions()
-let userProjects = []
-let userData = pubSub.emit("loadProjects")
-pubSub.on("projectChange", saveProjects)
-pubSub.on("getProjects", () => userProjects)
-pubSub.on("newProject", newProject)
+const STORAGE = new Storage()
+const dashboard = new dashboardDom(STORAGE.getProjectList())
+// projectsDom.cacheDOM()
+// todoDom.cacheDOM()
+// Forms.cacheDOM()
+// Storage.createSubscriptions()
 
-function saveProjects() {
-    pubSub.emit("saveProjects", userProjects)
-}
+document.querySelector("#nav-projects").addEventListener("click", (e) => { 
+    if (e.target.id != "nav-projects") {
+        let projectName = e.target.dataset.projectName
+        let projectJson = STORAGE.getProject(projectName)
+        let project = new Project(projectJson.name, projectJson.description, projectJson.deadline, projectJson.todos)
+        new projectsDom(project)
+        project.todos.forEach(todoJson => {
+            let todo = new Todo(todoJson.description, todoJson.getProjectList, todoJson.completed)
+            new todoDom(todo)
+        })
+    }
+})
+// let userProjects = []
+// let userData = pubSub.emit("loadProjects")
+// pubSub.on("projectChange", saveProjects)
+// pubSub.on("getProjects", () => userProjects)
+// pubSub.on("newProject", newProject)
 
-function newProject(project) {
-    userProjects.push(project)
-    saveProjects()
-}
+// function saveProjects() {
+//     pubSub.emit("saveProjects", userProjects)
+// }
 
-function setDefaults() {
-    const defaultProject = new Project("Miscelaneous todos", "A list of tasks from various projects", "2999/12/13")
-    const testTodo = new Todo("Finish this site", "High")
-    defaultProject.addTodo(testTodo)
-    userProjects.push(defaultProject)
-}
+// function newProject(project) {
+//     userProjects.push(project)
+//     saveProjects()
+// }
 
-if (userData == null) { setDefaults() }
-else { userProjects = userData }
+// function setDefaults() {
+//     const defaultProject = new Project("Miscelaneous todos", "A list of tasks from various projects", "2999/12/13")
+//     const testTodo = new Todo("Finish this site", "High")
+//     defaultProject.addTodo(testTodo)
+//     userProjects.push(defaultProject)
+// }
 
-pubSub.emit("renderDashboard", userProjects)
+// if (userData == null) { setDefaults() }
+// else { userProjects = userData }
+
+// pubSub.emit("renderDashboard", userProjects)
 
 export { pubSub }

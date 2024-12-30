@@ -3,37 +3,31 @@ import { pubSub } from "./index"
 import { format } from "date-fns";
 
 export default class projectsDom extends DomManager {
-    static cacheDOM() {
+    constructor(project) {
+        super()
+        this.project = project
+        this.todos = project.todos
         this.content = document.querySelector("#content")
-        pubSub.on("renderProject", this.renderProject, true)
-        pubSub.on("newProject", this.renderProject, true)
-        pubSub.on("findProject", this.find, true)
+        this.template = document.querySelector("#project-template").content.cloneNode(true)
+        this.render()
     }
-    static find(projectName) {
-        const projects = pubSub.emit("getProjects")
-        return projects.find(project => project.name == projectName)
+    sortTodos() {
+        return this.todos.sort((a,b) => a.completed - b.completed)
     }
-    static sortTodos(todos) {
-        return todos.sort((a,b) => a.completed - b.completed)
-    }
-    static createProjectCard(project) {
-        this.content.textContent = ''
-        const template = document.querySelector("#project-template").content.cloneNode(true)
-        super.setTextContent(template, ".project-name", project.name)
-        super.setTextContent(template, ".project-description", project.description)
-        super.setTextContent(template, ".project-deadline", project.deadline)
-        if (project.deadline <= format(new Date(), "yyyy-MM-dd")) { 
-            template.querySelector(".project-deadline").classList.add("overdue") 
+    fillTemplate() {
+        super.setTextContent(this.template, ".project-name", this.project.name)
+        super.setTextContent(this.template, ".project-description", this.project.description)
+        super.setTextContent(this.template, ".project-deadline", this.project.deadline)
+        if (this.project.deadline <= format(new Date(), "yyyy-MM-dd")) { 
+            this.template.querySelector(".project-deadline").classList.add("overdue") 
         }
-        project.todos = this.sortTodos(project.todos)
-        template.querySelector("input[name='project']").value = project.name
-        project.todos.forEach(todo => {
-            pubSub.emit("renderTodo", {template, todo})
-        })
-        return template
+        this.project.todos = this.sortTodos()
+        this.template.querySelector("input[name='project']").value = this.project.name
+        return this.template
     }
-    static renderProject(project) {
-        let projectElem = projectsDom.createProjectCard(project)
-        super.wrapElements([projectElem], content)
+    render() {
+        this.content.textContent = ''
+        let projectElem = this.fillTemplate()
+        super.wrapElements([projectElem], this.content)
     }
 }

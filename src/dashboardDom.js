@@ -2,35 +2,31 @@ import DomManager from "./dom";
 import { pubSub } from "./index"
 
 export default class dashboardDom extends DomManager {
-    static cacheDOM() {
-        this.projectList = document.querySelector("ul#nav-projects")
-        pubSub.on("newProject", this.newProject)
-        pubSub.on("renderDashboard", this.renderDashboard, true)
+    constructor(projects) {
+        super()
+        this.projects = projects
+        this.renderDashboard()
+        // pubSub.on("newProject", this.newProject)
+        // pubSub.on("renderDashboard", this.renderDashboard, true)
     }
     static newProject(project) {
         let navElem = dashboardDom.createNavProject(project)
         super.wrapElements([navElem], document.querySelector("ul#nav-projects"))
     }
-    static createNavProject(project) {
+    createNavProject(projectName) {
         const template = document.querySelector("#nav-project-template").content.cloneNode(true)
-        super.setTextContent(template, ".nav-project-name", project.name)
-        template.querySelector("div.nav-project").dataset.projectName = project.name
-        template.querySelector(".nav-project-name").dataset.projectName = project.name
+        super.setTextContent(template, ".nav-project-name", projectName)
+        template.querySelector("div.nav-project").dataset.projectName = projectName
+        template.querySelector(".nav-project-name").dataset.projectName = projectName
         return template
     }
-    static renderDashboard(projects) {
+    renderDashboard() {
         let projectElements = []
-        for (const project of projects) {
-            let projectElem = dashboardDom.createNavProject(project)
+        for (const projectName of this.projects) {
+            let projectElem = this.createNavProject(projectName)
             projectElements.push(projectElem)
         }
-        super.wrapElements(projectElements, document.querySelector("ul#nav-projects"))
-        dashboardDom.projectList.addEventListener("click", (e) => { 
-            if (e.target.id != "nav-projects") {
-                let projectName = e.target.dataset.projectName
-                let project = pubSub.emit("findProject", projectName)
-                pubSub.emit("renderProject", project)
-            }
-        })
+        console.log(this.projectList)
+        super.wrapElements(projectElements, this.projectList)
     }
 }

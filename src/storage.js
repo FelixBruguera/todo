@@ -1,6 +1,15 @@
 import { pubSub } from "./index"
 
 export default class Storage {
+    constructor() {
+        this.userProjects = this.deserialize(localStorage.getItem("userProjects"))
+    }
+    getProject(name) {
+        return this.userProjects[name]
+    }
+    getProjectList() {
+        return Object.keys(this.userProjects)
+    }
     static createSubscriptions() {
         pubSub.on("loadProjects", Storage.getUserProjects)
         pubSub.on("saveProjects", Storage.saveUserProjects)
@@ -8,7 +17,7 @@ export default class Storage {
     static serialize(object) {
         return JSON.stringify(object)
     }
-    static deserialize(object) {
+    deserialize(object) {
         return JSON.parse(object)
     }
     static getUserProjects() {

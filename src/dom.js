@@ -2,8 +2,9 @@ export default class DomManager {
     constructor() {
         this.nav = document.querySelector("nav")
         this.content = document.querySelector("#content")
+        this.projectList = document.querySelector("ul#nav-projects")
     }
-    static makeDomElement(elementType, elementClass, elementContent) {
+    makeDomElement(elementType, elementClass, elementContent) {
         let element = document.createElement(elementType)
         element.classList = elementClass
         element.textContent = elementContent
@@ -16,12 +17,12 @@ export default class DomManager {
         element.textContent = elementContent
         return element
     }
-    static setTextContent(element, selector, text) {
+    setTextContent(element, selector, text) {
         let target = element.querySelector(selector)
         target.textContent = text
         return target
     }
-    static wrapElements(elements, parentElement) {
+    wrapElements(elements, parentElement) {
         for (const elem of elements) {
             parentElement.appendChild(elem)
         }

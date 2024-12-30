@@ -17,7 +17,6 @@ export default class Todo {
     }
     markAsCompleted() {
         this.completed = true
-        pubSub.emit("projectChange")
     }
     destroy(project) {
         const todoIndex = project.todos.indexOf(this)

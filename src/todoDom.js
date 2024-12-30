@@ -2,41 +2,39 @@ import DomManager from "./dom";
 import { pubSub } from "./index"
 
 export default class todoDom extends DomManager {
-    static cacheDOM() {
-        this.content = document.querySelector("#content")
-        pubSub.on("renderTodo", this.render, true)
-        pubSub.on("filterTodos", this.filterDom, true)
-        
+    constructor(todo) {
+        super()
+        this.todo = todo
+        this.todosDiv = document.querySelector("#todos")
+        this.template = document.querySelector("#todo-template").content.cloneNode(true)
+        this.todoElem = null
+        this.render()
     }
     static find(todoName) {
         const projectName = document.querySelector("h2.project-name").textContent
         const project = pubSub.emit("findProject", projectName)
         return project.todos.find(todo => todo.description == todoName)
     }
-    static update(todoElem) {
-        todoElem.classList.add("completed-todo")
-        todoElem.querySelector("#todo-complete").remove()
-        todoElem.querySelector("#todo-delete").remove()
-        return todoElem
+    update() {
+        this.todoElem.classList.add("completed-todo")
+        this.todoElem.querySelector("#todo-complete").remove()
+        this.todoElem.querySelector("#todo-delete").remove()
     }
-    static create(todo) {
-        const template = document.querySelector("#todo-template").content.cloneNode(true)
-        super.setTextContent(template, ".todo-description", todo.description)
-        template.querySelector(".todo").classList.add(`${todo.priority}-priority`)
-        template.querySelector("div.todo").dataset.todoDescription = todo.description
-        template.querySelector("#todo-complete").addEventListener("click", (e) => this.markasCompleted(e))
-        template.querySelector("#todo-delete").addEventListener("click", (e) => this.destroy(e))
-        if (todo.completed) { this.update(template.querySelector("div")) }
-        return template
+    create() {
+        super.setTextContent(this.template, ".todo-description", this.todo.description)
+        this.template.querySelector(".todo").classList.add(`${this.todo.priority}-priority`)
+        this.template.querySelector("div.todo").dataset.todoDescription = this.todo.description
+        this.template.querySelector("#todo-complete").addEventListener("click", (e) => this.markasCompleted(e))
+        this.template.querySelector("#todo-delete").addEventListener("click", (e) => this.destroy(e))
+        this.todoElem = this.template.querySelector("div")
+        if (this.todo.completed) { this.update(this.template.querySelector("div")) }
+        return this.template
     }
-    static markasCompleted(event) {
-        const todoName = event.target.parentElement.parentElement.dataset.todoDescription
-        const todoElem = event.target.parentElement.parentElement
-        const todo = this.find(todoName)
-        todo.markAsCompleted()
-        this.update(todoElem)
+    markasCompleted() {
+        this.todo.markAsCompleted()
+        this.update()
     }
-    static destroy(event) {
+    destroy(event) {
         const todoName = event.target.parentElement.parentElement.dataset.todoDescription
         const todoElem = event.target.parentElement.parentElement
         const projectName = document.querySelector(".project-name").textContent
@@ -45,13 +43,9 @@ export default class todoDom extends DomManager {
         todo.destroy(project)
         todoElem.remove()
     }
-    static render(values) {
-        let todosDiv = null
-        if ("template" in values ) { todosDiv = values.template.querySelector("#todos") }
-        else { todosDiv = document.querySelector("#todos") }
-        let todoElem = todoDom.create(values.todo)
-        if (values.isNew) { todoElem.querySelector("div.todo").classList.add("new-todo") }
-        todosDiv.appendChild(todoElem)
+    render() {
+        let todoElem = this.create()
+        this.todosDiv.appendChild(todoElem)
     }
     static filterTodos(todos, priority, completion) {
         if (priority == "all") { priority = ["high","normal","low"] }
