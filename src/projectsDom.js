@@ -1,5 +1,4 @@
 import DomManager from "./dom";
-import { pubSub } from "./index"
 import { format } from "date-fns";
 
 export default class projectsDom extends DomManager {

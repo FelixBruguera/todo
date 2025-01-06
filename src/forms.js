@@ -2,45 +2,38 @@ import DomManager from "./dom";
 import { pubSub } from "./index";
 import { format } from "date-fns";
 
-export default class Forms extends DomManager {
-    static cacheDOM() {
-        this.newProjectButton = document.querySelector("button[data-formtarget='new-project']")
+export default class Forms {
+    constructor() {
+        this.projectButton = document.querySelector("button[data-formtarget='new-project']")
         this.projectForm = document.querySelector("#new-project-form")
-        pubSub.on("renderProject", this.newTodoListener)
-        pubSub.on("renderProject", this.filtersListeners)
-        pubSub.on("newProject", this.newTodoListener)
-        pubSub.on("newProject", this.filtersListeners)
-        pubSub.on("renderDashboard", this.newProjectListener)
+        this.projectPopover = document.querySelector("#new-project")
         this.populateForms()
     }
-    static populateForms() {
-        this.newProjectButton.addEventListener("click", function() {
+    populateForms() {
+        this.projectButton.addEventListener("click", function() {
             const dateField = document.querySelector("#new-project-form > input[type=date]")
             dateField.min = format(new Date(), "yyyy-MM-dd")
         }, {once: true})
     }
-    static newProjectListener() {
-        Forms.projectForm.addEventListener("submit", function(e) {
-            e.preventDefault()
-            let form = new FormData(document.querySelector("#new-project-form"))
-            let formObject = {"name": form.get("name"), "description": form.get("description"), "deadline": form.get("deadline") }
-            pubSub.emit("createProject", formObject)
-            document.querySelector("#new-project").hidePopover()
-            Forms.projectForm.reset()
-        })
+    projectFormHandler(e) {
+        e.preventDefault()
+        let form = new FormData(document.querySelector("#new-project-form"))
+        let formObject = {"name": form.get("name"), "description": form.get("description"), "deadline": form.get("deadline") }
+        this.projectPopover.hidePopover()
+        this.projectForm.reset()
+        return formObject
     }
-    static newTodoListener() {
-        const todoForm = document.querySelector("#new-todo-form")
-        todoForm.addEventListener("submit", function(e) {
-            e.preventDefault()
-            let form = new FormData(document.querySelector("#new-todo-form"))
-            let formObject = {"project": form.get("project"), "description": form.get("description"), "priority": form.get("priority") }
-            pubSub.emit("createTodo", formObject)
-            document.querySelector("#new-todo").hidePopover()
-            todoForm.reset()
-            todoForm.querySelector("input[name='project']").value = form.get("project")
-        })
-    }
+    todoFormHandler(e) {
+        e.preventDefault()
+        let todoForm = document.querySelector("#new-todo-form")
+        let todoPopover = document.querySelector("#new-todo")
+        let form = new FormData(todoForm)
+        let formObject = {"project": form.get("project"), "description": form.get("description"), "priority": form.get("priority") }
+        todoPopover.hidePopover()
+        todoForm.reset()
+        todoForm.querySelector("input[name='project']").value = form.get("project")
+        return formObject
+        }
     static filtersListeners() {
         const priority = document.querySelector("#todo-priority-select")
         const completion = document.querySelector("#todo-completion-select")

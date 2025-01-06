@@ -1,40 +1,20 @@
-import { pubSub } from "./index"
-
 export default class Storage {
     constructor() {
         this.userProjects = this.deserialize(localStorage.getItem("userProjects"))
     }
     getProject(name) {
-        return this.userProjects[name]
+        return this.deserialize(localStorage.getItem(name))
     }
     getProjectList() {
-        return Object.keys(this.userProjects)
+        return Object.keys(localStorage)
     }
-    static createSubscriptions() {
-        pubSub.on("loadProjects", Storage.getUserProjects)
-        pubSub.on("saveProjects", Storage.saveUserProjects)
+    saveProject(name, project) {
+        localStorage.setItem(name, this.serialize(project))
     }
-    static serialize(object) {
+    serialize(object) {
         return JSON.stringify(object)
     }
     deserialize(object) {
         return JSON.parse(object)
     }
-    static getUserProjects() {
-        let projects = localStorage.getItem("userProjects")
-        if (projects != null) {
-            projects =  Storage.deserialize(projects) 
-            projects = projects.map(project => {
-                const newProject = pubSub.emit("restoreProject", project)
-                newProject.todos = project.todos.map(todo => pubSub.emit("restoreTodo", todo));
-                return newProject;
-              })
-            }
-        return projects
-    }
-    static saveUserProjects(projects) {
-        let data = Storage.serialize(projects)
-        localStorage.setItem("userProjects", data)
-    }
-
 }

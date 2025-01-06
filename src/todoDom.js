@@ -2,46 +2,37 @@ import DomManager from "./dom";
 import { pubSub } from "./index"
 
 export default class todoDom extends DomManager {
-    constructor(todo) {
+    constructor(todo, project, storage) {
         super()
         this.todo = todo
+        this.project = project
+        this.storage = storage
         this.todosDiv = document.querySelector("#todos")
         this.template = document.querySelector("#todo-template").content.cloneNode(true)
         this.todoElem = null
         this.render()
-    }
-    static find(todoName) {
-        const projectName = document.querySelector("h2.project-name").textContent
-        const project = pubSub.emit("findProject", projectName)
-        return project.todos.find(todo => todo.description == todoName)
-    }
-    update() {
-        this.todoElem.classList.add("completed-todo")
-        this.todoElem.querySelector("#todo-complete").remove()
-        this.todoElem.querySelector("#todo-delete").remove()
     }
     create() {
         super.setTextContent(this.template, ".todo-description", this.todo.description)
         this.template.querySelector(".todo").classList.add(`${this.todo.priority}-priority`)
         this.template.querySelector("div.todo").dataset.todoDescription = this.todo.description
         this.template.querySelector("#todo-complete").addEventListener("click", (e) => this.markasCompleted(e))
-        this.template.querySelector("#todo-delete").addEventListener("click", (e) => this.destroy(e))
+        this.template.querySelector("#todo-delete").addEventListener("click", (e) => this.destroy())
         this.todoElem = this.template.querySelector("div")
-        if (this.todo.completed) { this.update(this.template.querySelector("div")) }
+        if (this.todo.completed) { this.markasCompleted() }
         return this.template
     }
     markasCompleted() {
         this.todo.markAsCompleted()
-        this.update()
+        this.todoElem.classList.add("completed-todo")
+        this.todoElem.querySelector("#todo-complete").remove()
+        this.todoElem.querySelector("#todo-delete").remove()
+        this.storage.saveProject(this.project.name, this.project)
     }
-    destroy(event) {
-        const todoName = event.target.parentElement.parentElement.dataset.todoDescription
-        const todoElem = event.target.parentElement.parentElement
-        const projectName = document.querySelector(".project-name").textContent
-        const project = pubSub.emit("findProject", projectName)
-        const todo = this.find(todoName)
-        todo.destroy(project)
-        todoElem.remove()
+    destroy() {
+        this.todo.destroy(this.project)
+        this.todoElem.remove()
+        this.storage.saveProject(this.project.name, this.project)
     }
     render() {
         let todoElem = this.create()

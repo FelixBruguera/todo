@@ -1,20 +1,18 @@
 import DomManager from "./dom";
-import { pubSub } from "./index"
 
 export default class dashboardDom extends DomManager {
     constructor(projects) {
         super()
         this.projects = projects
+        this.projectList = document.querySelector("ul#nav-projects")
         this.renderDashboard()
-        // pubSub.on("newProject", this.newProject)
-        // pubSub.on("renderDashboard", this.renderDashboard, true)
     }
-    static newProject(project) {
-        let navElem = dashboardDom.createNavProject(project)
-        super.wrapElements([navElem], document.querySelector("ul#nav-projects"))
+    addProject(projectName) {
+        let projectElem = this.createNavProject(projectName)
+        this.projectList.appendChild(projectElem)
     }
     createNavProject(projectName) {
-        const template = document.querySelector("#nav-project-template").content.cloneNode(true)
+        let template = document.querySelector("#nav-project-template").content.cloneNode(true)
         super.setTextContent(template, ".nav-project-name", projectName)
         template.querySelector("div.nav-project").dataset.projectName = projectName
         template.querySelector(".nav-project-name").dataset.projectName = projectName
@@ -26,7 +24,6 @@ export default class dashboardDom extends DomManager {
             let projectElem = this.createNavProject(projectName)
             projectElements.push(projectElem)
         }
-        console.log(this.projectList)
         super.wrapElements(projectElements, this.projectList)
     }
 }

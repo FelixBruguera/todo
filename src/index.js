@@ -12,49 +12,64 @@ const pubSub = new pubsub()
 Project.createSubscriptions()
 Todo.createSubscriptions()
 const STORAGE = new Storage()
-const dashboard = new dashboardDom(STORAGE.getProjectList())
-// projectsDom.cacheDOM()
-// todoDom.cacheDOM()
-// Forms.cacheDOM()
-// Storage.createSubscriptions()
+const DASHBOARD = new dashboardDom(STORAGE.getProjectList())
+const FORMS = new Forms()
+const navProjects = document.querySelector("#nav-projects")
+const newProjectForm = document.querySelector("#new-project-form")
+let currentProject = null
 
-document.querySelector("#nav-projects").addEventListener("click", (e) => { 
+if (STORAGE.getProjectList().length == 0) { setDefaults() }
+
+navProjects.addEventListener("click", function(e) {
     if (e.target.id != "nav-projects") {
         let projectName = e.target.dataset.projectName
         let projectJson = STORAGE.getProject(projectName)
         let project = new Project(projectJson.name, projectJson.description, projectJson.deadline, projectJson.todos)
-        new projectsDom(project)
-        project.todos.forEach(todoJson => {
-            let todo = new Todo(todoJson.description, todoJson.getProjectList, todoJson.completed)
-            new todoDom(todo)
-        })
+        renderProject(project)
     }
 })
-// let userProjects = []
-// let userData = pubSub.emit("loadProjects")
-// pubSub.on("projectChange", saveProjects)
-// pubSub.on("getProjects", () => userProjects)
-// pubSub.on("newProject", newProject)
 
-// function saveProjects() {
-//     pubSub.emit("saveProjects", userProjects)
-// }
+newProjectForm.addEventListener("submit", function(e) {
+    let response = FORMS.projectFormHandler(e)
+    let project = new Project(response.name, response.description, response.deadline, response.todos)
+    if (STORAGE.getProjectList().includes(project.name)) { window.alert("ERROR: There's another project with that name") }
+    else {
+        DASHBOARD.addProject(project.name)
+        STORAGE.saveProject(project.name, project)
+        renderProject(project)
+    }
+})
 
-// function newProject(project) {
-//     userProjects.push(project)
-//     saveProjects()
-// }
+function renderProject(project) {
+    new projectsDom(project)
+    project.todos = project.todos.map(todoJson => {
+        let todo = new Todo(todoJson.description, todoJson.priority, todoJson.completed)
+        new todoDom(todo, project, STORAGE)
+        return todo
+    })
+    document.querySelector("#new-todo-form").addEventListener("submit", (e) => newTodo(e))
+    currentProject = project
+}
+function newTodo(e) {
+    let response = FORMS.todoFormHandler(e)
+    let todo = new Todo(response.description, response.priority, false)
+    currentProject.addTodo(todo)
+    new todoDom(todo, currentProject, STORAGE)
+    STORAGE.saveProject(currentProject.name, currentProject)
+}
 
-// function setDefaults() {
-//     const defaultProject = new Project("Miscelaneous todos", "A list of tasks from various projects", "2999/12/13")
-//     const testTodo = new Todo("Finish this site", "High")
-//     defaultProject.addTodo(testTodo)
-//     userProjects.push(defaultProject)
-// }
-
-// if (userData == null) { setDefaults() }
-// else { userProjects = userData }
-
-// pubSub.emit("renderDashboard", userProjects)
+function renderTodos(todos) {
+    todos.forEach(todoJson => {
+        let todo = new Todo(todoJson.description, todoJson.getProjectList, todoJson.completed)
+        new todoDom(todo)
+    })
+}
+function setDefaults() {
+    let defaultProject = new Project("Miscelaneous todos", "A list of tasks from various projects", "2999/12/31")
+    let defaultTodo = new Todo("Test todo", "low", false)
+    defaultProject.addTodo(defaultTodo)
+    STORAGE.saveProject(defaultProject.name, defaultProject)
+    renderProject(defaultProject)
+}
 
 export { pubSub }
