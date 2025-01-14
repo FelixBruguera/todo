@@ -33,7 +33,7 @@ nav {
     flex-direction: column;
     align-items: center;
     border-bottom: 1px solid rgba(0,0,0, 0.1);
-    background-color: rgba(211,211,211,0.6);
+    background-color: rgba(211,211,211,0.5);
     color: black;
     width: 20%;
     height: 100dvh;
@@ -57,13 +57,13 @@ button, input[type="submit"] {
     color: white;
 }
 .nav-button {
-    height: 100%;
-    width: 50%;
+    height: 80%;
+    width: 45%;
     transition: transform 0.1s ease-in-out;
 }
 .header-button {
-    width: 13%;
-    height: 7dvh;
+    width: 35%;
+    height: 6dvh;
     text-align: center;
     padding: 1%;
     transition: transform 0.1s ease-in-out;
@@ -104,6 +104,8 @@ button, input[type="submit"] {
     display: flex;
     justify-content: space-evenly;
     gap: 20px;
+    padding-top: 1%;
+
 }
 #project {
     height: 100dvh;
@@ -126,6 +128,29 @@ button, input[type="submit"] {
 }
 .project-description {
     font-size: 1.1rem;
+    width: 85%;
+}
+#project-buttons {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#finish-project {
+    background-color: var(--color-accent);
+}
+.finished-project {
+    opacity: 0.6;
+    .project-name::after {
+        content: " ✔";
+        font-weight: 800;
+        color: green;
+    }
+    .nav-project-name::after {
+        content: " ✔";
+        font-weight: 800;
+        color: green;
+    }
 }
 .overdue::after {
     content: "❗";
@@ -136,7 +161,7 @@ button, input[type="submit"] {
 #project-information {
     display: flex;
     margin-right: 7%;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
     color: rgba(0, 0, 0, 0.6);
     font-size: 1rem;
@@ -188,10 +213,13 @@ button, input[type="submit"] {
     transition: transform 0.2s ease-in-out;
     height: 11dvh;
 }
-
 .todo:hover {
     cursor: pointer;
     transform: scale(1.1);
+    .todo-description {
+        overflow:visible;
+        word-break: break-word;
+    }
 }
 .new-todo {
     animation: slideIn 1s ease-in-out;
@@ -234,23 +262,6 @@ button, input[type="submit"] {
     color: grey;
     font-weight: 500
 }
-/* .low-priority:hover {
-    #todo-priority::after {
-        content: "Low priority"
-    }
-}
-.normal-priority:hover {
-    #todo-priority::after {
-        content: "Normal priority";
-        color: #a76d03;
-    }
-}
-.high-priority:hover {
-    #todo-priority::after {
-        content: "High priority";
-        color: red;
-    }
-} */
 .low-priority {
     border-left: 10px solid grey;
 }
@@ -339,4 +350,43 @@ label {
 #project-filters {
     display: flex;
     font-size: 1.2rem;
+}
+@media (max-width: 500px) {
+    nav {
+        width: 30%;
+    }
+    #content {
+        width: 70%;
+    }
+    .nav-button {
+        width: 90%;
+        height: 80%;
+    }
+    .header-button {
+        width: 40%;
+        height: 60%;
+    }
+    #new-project-form, #new-todo-form {
+        width: 60%;
+    }
+    input, select {
+        width: 75%;
+    }
+    #page-name, .project-name {
+        font-size: 1.5rem;
+    }
+    .project-name {
+        width: 65%;
+    }
+    .todo {
+        width: 80%;
+        height: 15dvh;
+    }
+    .nav-project {
+        height: 10dvh;
+    }
+    .project-description {
+        width: 65%;
+    }
+    
 }

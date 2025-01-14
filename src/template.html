@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo list</title>
+    <link rel="shortcut icon" href="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/512/tasks.png" type="image/x-icon">
 </head>
 <body>
     <nav>
@@ -36,7 +37,10 @@
         <div id="project">
             <div id="project-header">
                 <h2 class="project-name"></h2>
-                <button popovertarget="new-todo" class="header-button" data-formtarget="new-todo">New Todo</button>
+                <div id="project-buttons">
+                    <button id="finish-project" class="header-button">Finish</button>
+                    <button popovertarget="new-todo" class="header-button" data-formtarget="new-todo">New Todo</button>
+                </div>
                 <div popover id="new-todo">
                     <form popover id="new-todo-form">
                     <label for="project">Project</label>

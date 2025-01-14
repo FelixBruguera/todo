@@ -4,7 +4,7 @@ export default class Todo {
         this.priority = priority
         this.completed = completed
     }
-    markAsCompleted() {
+    finish() {
         this.completed = true
     }
     destroy(project) {

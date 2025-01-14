@@ -11,17 +11,21 @@ export default class dashboardDom extends DomManager {
         let projectElem = this.createNavProject(projectName)
         this.projectList.appendChild(projectElem)
     }
-    createNavProject(projectName) {
+    finishProject(projectName) {
+        document.querySelector(`div[data-project-name = ${projectName}]`).classList.add("finished-project")
+    }
+    createNavProject(project) {
         let template = document.querySelector("#nav-project-template").content.cloneNode(true)
-        super.setTextContent(template, ".nav-project-name", projectName)
-        template.querySelector("div.nav-project").dataset.projectName = projectName
-        template.querySelector(".nav-project-name").dataset.projectName = projectName
+        super.setTextContent(template, ".nav-project-name", project.name)
+        template.querySelector("div.nav-project").dataset.projectName = project.name
+        template.querySelector(".nav-project-name").dataset.projectName = project.name
+        if (project.isFinished) { template.querySelector("div").classList.add("finished-project")}
         return template
     }
     renderDashboard() {
         let projectElements = []
-        for (const projectName of this.projects) {
-            let projectElem = this.createNavProject(projectName)
+        for (const project of this.projects) {
+            let projectElem = this.createNavProject(project)
             projectElements.push(projectElem)
         }
         super.wrapElements(projectElements, this.projectList)

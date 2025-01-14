@@ -5,8 +5,13 @@ export default class Storage {
     getProject(name) {
         return this.deserialize(localStorage.getItem(name))
     }
-    getProjectList() {
+    getProjectNames() {
         return Object.keys(localStorage)
+    }
+    getProjectList() {
+        let projectNames = this.getProjectNames()
+        let projects = projectNames.map(project => this.deserialize(localStorage[project]))
+        return projects
     }
     saveProject(name, project) {
         localStorage.setItem(name, this.serialize(project))
