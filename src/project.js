@@ -1,17 +1,18 @@
+
 export default class Project {
-    constructor(name, description, deadline, todos = [], isFinished = false) {
+    constructor(name, description, deadline, todos = [], isFinished = false, createdAt) {
         this.name = name
         this.description = description
         this.deadline = deadline
         this.todos = todos
         this.isFinished = isFinished
+        this.createdAt = createdAt
     }
     addTodo(todo) {
         this.todos.unshift(todo)
     }
     finish() {
         this.isFinished = true
-        this.todos.forEach(todo => todo.finish())
     }
     removeTodo(todoIndex) {
         this.todos.splice(todoIndex, 1)

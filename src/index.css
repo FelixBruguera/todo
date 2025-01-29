@@ -21,10 +21,11 @@ body {
     margin: 0;
     display: flex;
     overflow-y: hidden;
+    margin-top: 0.5em;
 }
 #page-name {
     width: 100%;
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-align: center;
     font-family: "Montserrat";
 }
@@ -33,12 +34,13 @@ nav {
     flex-direction: column;
     align-items: center;
     border-bottom: 1px solid rgba(0,0,0, 0.1);
-    background-color: rgba(211,211,211,0.5);
+    /* background-color: rgba(211,211,211,0.5); */
     color: black;
-    width: 20%;
+    width: 16rem;
     height: 100dvh;
     overflow-y: hidden;
     overflow-x: hidden;
+    border-right: 1px solid rgba(0,0,0, 0.1);
 }
 #nav-buttons {
     width: 100%;
@@ -48,22 +50,29 @@ nav {
     height: 8%;
 }
 button, input[type="submit"] {
-    padding: 2%;
     border: none;
     font-weight: 800;
-    font-size: 1rem;
-    border-radius: 50px;
+    font-size: 0.87rem;
+    border-radius: 0.5rem;
     background-color: var(--color-secondary);
     color: white;
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
-.nav-button {
-    height: 80%;
-    width: 45%;
+.nav-button, .header-button {
+    height: 85%;
+    width: 60%;
+    padding: 0.5rem;
     transition: transform 0.1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.nav-button > svg {
+    fill: rgba(250,250, 250, 0.5);
 }
 .header-button {
-    width: 35%;
-    height: 6dvh;
+    width: 40%;
+    height: 80%;
     text-align: center;
     padding: 1%;
     transition: transform 0.1s ease-in-out;
@@ -71,10 +80,10 @@ button, input[type="submit"] {
 #nav-projects {
     display: flex;
     height: fit-content;
-    width: 95%;
+    width: 97%;
     margin-left: auto;
     margin-right: auto;
-    padding: 0% 0% 2% 5%;
+    padding-left: 0.5em;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
@@ -83,20 +92,40 @@ button, input[type="submit"] {
     align-items: start;
 }
 .nav-project {
-    transition: transform 0.1s ease-in-out;
-    height: 6dvh;
-    width: 100%;
+    background-color: rgba(211,211,211,0);
+    height: 4em;
+    width: 95%;
+    border: none;
+    box-shadow: none;
+    text-align: justify;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 500;
 }
 .nav-project:hover {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: rgba(211,211,211,0.5);
     cursor: pointer;
-    transform: scale(1.03);
+    animation: color-change 0.1s ease-in;
     color: rgba(0, 0, 0, 1);
-    font-weight: 600;
+}
+.active-project {
+    background-color: rgba(211,211,211,0.5);
+    cursor: pointer;
+    animation: color-change 0.1s ease-in;
+    color: rgba(0, 0, 0, 1);
+}
+@keyframes color-change {
+    0% {
+        opacity: 80%;
+        /* font-weight: 500; */
+    }
+    100% { 
+        opacity: 100%;
+        color: rgba(0, 0, 0, 1);
+    }
 }
 .nav-project-name {
+    font-size: 0.875rem;
     background-color: transparent;
-    color: rgba(0, 0, 0, 0.6);
     border: none;
 }
 #content {
@@ -105,39 +134,54 @@ button, input[type="submit"] {
     justify-content: space-evenly;
     gap: 20px;
     padding-top: 1%;
-
+    background-color: rgb(249 250 251 / 1);
 }
 #project {
     height: 100dvh;
     width: 100%;
     margin: 0 auto auto 5%;
 }
-.nav-project-name {
-    font-size: 1rem;
-}
 #project-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-right: 5%;
-    height: 10%;
+    height: 18%;
+}
+#project-dates {
+    display: flex;
+    width: 28%;
+    align-items: center;
+    justify-content: start;
+    gap: 22%;
+}
+#project-date {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 25%;
+    gap: 5%;
+}
+#project-date > svg {
+    fill: grey;
+    height: 1.2em;
+    width: 1.2em;
 }
 .project-name {
     font-size: 2rem;
     margin: 0;
 }
-.project-description {
-    font-size: 1.1rem;
-    width: 85%;
+#project-title {
+    margin-bottom: 0.5em;
 }
-#project-buttons {
-    width: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+.header-button > svg, #todo-complete > svg {
+    height: 1.5em;
+    width: 1.5em;
 }
-#finish-project {
-    background-color: var(--color-accent);
+.header-button > svg {
+    fill: rgba(250,250, 250, 0.5);
+}
+#todo-delete > svg {
+    fill: red;
 }
 .finished-project {
     opacity: 0.6;
@@ -154,22 +198,83 @@ button, input[type="submit"] {
 }
 .overdue::after {
     content: "❗";
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 800;
     color: red;
 }
 #project-information {
     display: flex;
-    margin-right: 7%;
+    flex-direction: column;
     align-items: start;
-    justify-content: space-between;
-    color: rgba(0, 0, 0, 0.6);
+    width: 50%;
+    height: fit-content;
+    margin-bottom: 0.5em;
+}
+.project-description {
     font-size: 1rem;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    color: rgba(0, 0, 0, 0.6);
+}
+.project-deadline {
+    font-size: 0.875rem;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    color: rgba(0, 0, 0, 0.5);
+    width: 80%;
+}
+#project-options {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-right: 2.5em;
+}
+#project-buttons {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#project-filters {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    font-size: 1.1rem;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.project-filter {
+    width: 40%;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.project-filter > label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.project-filter > label > svg {
+    fill: skyblue;
+}
+.project-filter > select {
+    border-radius: 0.3rem;
+    height: 53%;
+    width: 100%;
+    background-color: white;
+    padding: 0.5em;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0.5em;
 }
 .project-card {
     background-color: var(--color-primary);
     width: 23%;
-    box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
+    box-shadow: 0px 2px 2px #00000030, 0px 8px 8px #00000015;
     border: 2px solid var(--color-tertiary);
     border-radius: 10px;
     display: flex;
@@ -200,18 +305,18 @@ button, input[type="submit"] {
         opacity: 0;}
 }
 .todo {
-    width: 23%;
-    box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
+    width: 25%;
+    box-shadow: 0px 2px 2px #00000030, 0px 8px 8px #00000015;
     border: 1px solid lightgrey;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     overflow: hidden;
-    padding: 2%;
-    margin: 2% 2% 5% 2%;
+    padding: 0.5em;
+    margin: 1em;
     transition: transform 0.2s ease-in-out;
-    height: 11dvh;
+    height: 4.5em;
 }
 .todo:hover {
     cursor: pointer;
@@ -239,7 +344,7 @@ button, input[type="submit"] {
     
 }
 .todo-options {
-    width: 35%;
+    width: 30%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -255,6 +360,7 @@ button, input[type="submit"] {
     height: 100%;
 }
 #todo-priority {
+    display: none;
     height: 1%;
     width: 20%;
     font-size: 0.8rem;
@@ -273,31 +379,31 @@ button, input[type="submit"] {
 }
 .todo-description {
     text-overflow: ellipsis;
-    width: 70%;
+    width: 90%;
     overflow: hidden;
-    font-size: 0.9rem;
-    max-height: 100%;
-}
-#todo-delete {
-    background-color: #bf0000;
+    font-size: 0.875rem;
+    max-height: 80%;
+    margin: 0.5em;
 }
 #todo-complete, #todo-delete {
+    background-color: white;
     font-size: 0.8rem;
-    width: 100%;
-    height: 40%;
+    width: 5em;
+    height: 2.5em;
     transition: transform 0.1s ease-in-out;
 }
-.nav-button:hover, .header-button:hover {
-    transform: scale(1.2);
+#todo-complete > svg {
+    fill: green;
+}
+.nav-button:hover, .header-button:hover, .nav-button:focus, .header-button:focus {
+    transform: scale(1.05);
+    background-color: rgba(13, 23, 38, 0.9);
     cursor: pointer;
 }
 #todo-complete:hover, #todo-delete:hover{
-    transform: scale(1.1);
+    background-color: rgba(211,211,211,0.2);
     cursor: pointer;
 } 
-#todo-complete {
-    background-color: var(--color-accent);
-}
 .completed-todo {
     background-color: lightgrey;
     opacity: 0.5;
@@ -316,7 +422,7 @@ button, input[type="submit"] {
     background-color: var(--color-primary);
 }
 button {
-    box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 #new-project, #new-todo {
     width: 100%;
@@ -339,32 +445,100 @@ input, select {
     border-radius: 5px;
     padding-top: 1%;
     padding-bottom: 1%;
-    width: 60%;
     margin: auto;
     font-size: 0.9rem;
     margin: 2% auto 2% auto;
 }
+#new-todo-form > select{
+    width: 30%;
+}
+input {
+    width: 60%;
+    height: 1em;
+    text-align: center;
+}
+input[type="submit"] {
+    height: 2.5em;
+}
 label {
     font-weight: 600;
+    font-size: 1.13rem;
 }
-#project-filters {
-    display: flex;
-    font-size: 1.2rem;
+.mobile-menu {
+    display: none;
 }
 @media (max-width: 500px) {
     nav {
-        width: 30%;
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+        background-color: white;
+    }
+    .nav-mobile {
+        display: none;
+    }
+    .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: none;
+        height: 1.5em;
+        width: 3em;
+        background-color: white;
+        padding: 0;
+        padding-right: 0.5em;
+        border: none;
+    }
+    .button-line {
+        width: 100%;
+        display: block;
+        height: 15%;
+        background-color: black;
+    }
+    #burger-menu {
+        height: 100%;
+        width: 100%;
     }
     #content {
-        width: 70%;
+        width: 100%;
+    }
+    #project-title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    #project-header {
+        height: fit-content;
+        flex-direction: column;
+    }
+    #project-information {
+        width: 20em;
+        height: fit-content;
+        margin-bottom: 0.5em;
+    }
+    #project-options {
+        height: fit-content;
+        width: 20em;
+        margin: 0;
     }
     .nav-button {
-        width: 90%;
-        height: 80%;
+        width: 10em;
+        height: 2.5em;
+    }
+    #project-buttons,#project-filters {
+        height: 2em;
+        justify-content: space-between;
+    }
+    #project-filters {
+        height: 4em;
+    }
+    .project-filter {
+        width: 40%;
     }
     .header-button {
         width: 40%;
-        height: 60%;
+        height: 3em;
+        font-size: 0.8rem;
     }
     #new-project-form, #new-todo-form {
         width: 60%;
@@ -376,17 +550,25 @@ label {
         font-size: 1.5rem;
     }
     .project-name {
-        width: 65%;
+        width: 100%;
+        font-size: 1.25rem;
     }
     .todo {
         width: 80%;
         height: 15dvh;
     }
-    .nav-project {
-        height: 10dvh;
-    }
     .project-description {
-        width: 65%;
+        width: 100%;
+        font-size: 0.875rem;
+    }
+    #project-date {
+        width: 35%;
+    }
+    #project-deadline {
+        font-size: 0.875rem;
+    }
+    .finished > #project-header > #project-options > #project-buttons {
+        display: none;
     }
     
 }

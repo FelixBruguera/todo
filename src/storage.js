@@ -10,7 +10,8 @@ export default class Storage {
     }
     getProjectList() {
         let projectNames = this.getProjectNames()
-        let projects = projectNames.map(project => this.deserialize(localStorage[project]))
+        let projects = []
+        projectNames.forEach(project => projects.push(this.deserialize(localStorage[project])))
         return projects
     }
     saveProject(name, project) {

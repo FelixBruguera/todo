@@ -1,5 +1,5 @@
 import DomManager from "./dom";
-import { format } from "date-fns";
+import { differenceInCalendarDays, format } from "date-fns";
 
 export default class projectsDom extends DomManager {
     constructor(project) {
@@ -20,13 +20,16 @@ export default class projectsDom extends DomManager {
         super.setTextContent(this.template, ".project-name", this.project.name)
         super.setTextContent(this.template, ".project-description", this.project.description)
         super.setTextContent(this.template, ".project-deadline", this.project.deadline)
-        if (this.project.deadline <= format(new Date(), "yyyy-MM-dd") & this.project.isFinished == false) { 
-            this.template.querySelector(".project-deadline").classList.add("overdue") 
-        }
         this.project.todos = this.sortTodos()
         this.template.querySelector("input[name='project']").value = this.project.name
         if (this.project.isFinished) {
             this.template.querySelectorAll(".header-button").forEach(element => element.remove())
+            this.template.querySelector("#project").classList.add("finished")
+        }
+        else {
+            if (this.project.deadline <= format(new Date(), "yyyy-MM-dd")) { 
+                this.template.querySelector(".project-deadline").classList.add("overdue") 
+            }
         }
         return this.template
     }
